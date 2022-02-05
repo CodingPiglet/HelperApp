@@ -41,22 +41,36 @@ function ClueRow(props) {
   );
 }
 
+function BuildDataCells(props) {
+  // var table_row_data = [];
+  // for (var i = 0; i < props.num_players; i++) {
+  //   // note: we are adding a key prop here to allow react to uniquely identify each
+  //   // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+  //   table_row_data.push(<td key={i}><button className="square" onClick={props.onClick}>
+  //     {props.value}
+  //   </button></td>
+  //   );
+
+    
+  // }
+
+  const listItems = props.values.map((number) =>
+    <td key={number.toString()}>
+      <button className="square" onClick={props.onClick}>{number}</button>
+    </td>
+  );
+
+  return listItems;
+}
 
 function ClueTableRow(props) {
+  var data = BuildDataCells(props)
   return (
-      <tr>
-        <td>{props.name}</td>
-        <td><button className="square" onClick={props.onClick}>
-          {props.value}
-        </button></td>
-        <td><button className="square" onClick={props.onClick}>
-          {props.value}
-        </button></td>
-        <td><button className="square" onClick={props.onClick}>
-          {props.value}
-        </button></td>
+    <tr>
+      <td>{props.name}</td>
+      {data}
     </tr>
-    );
+  );
 }
 
 class ClueInfo extends React.Component {
@@ -69,12 +83,14 @@ class ClueInfo extends React.Component {
       />
     );
   }
-  renderClueTableRow(i, rowname) {
+  renderClueTableRow(i, rowname, num_players, current_info) {
     return (
       <ClueTableRow
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={"1"} //this.props.squares[i]}
+        values = {current_info}
+        // onClick={() => this.props.onClick(i)}
         name={rowname}
+        num_players={num_players}
       />
     );
   }  
@@ -94,8 +110,8 @@ class ClueInfo extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.renderClueTableRow(0, "Prof Plum")}
-              {this.renderClueTableRow(1, "Prof Green")}
+              {this.renderClueTableRow(0, "Prof Plum", 3, ["X", "-", "1"])}
+              {this.renderClueTableRow(1, "Prof Green", 3, [1, 2, 3])}
             </tbody>
           </Table>
         </div>
@@ -110,8 +126,8 @@ class ClueInfo extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.renderClueTableRow(0, "Candles")}
-              {this.renderClueTableRow(1, "Rope")}
+              {this.renderClueTableRow(0, "Candles", 3, [1, 2, 3])}
+              {this.renderClueTableRow(1, "Rope", 3, [1, 2, 3])}
             </tbody>
           </Table>
         </div>
@@ -126,8 +142,8 @@ class ClueInfo extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.renderClueTableRow(0, "Kitchen")}
-              {this.renderClueTableRow(1, "Dining Room")}
+              {this.renderClueTableRow(0, "Kitchen", 3, [1, 2, 3])}
+              {this.renderClueTableRow(1, "Dining Room", 3, [1, 2, 3])}
             </tbody>
           </Table>
         </div>
@@ -172,66 +188,37 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      history: [
+      num_players: 3,
+      num_weapons: 5,
+      num_rooms: 6,
+      num_people: 6,
+      knowledge: [
         {
-          squares: Array(9).fill(null)
+          rooms: Array(6*3).fill(null),
+          weapons: Array(6*3).fill(null),
+          people: Array(9*3).fill(null)
         }
       ],
-      stepNumber: 0,
-      xIsNext: true
+
     };
   }
 
-  handleClick(i) {
-    const history = this.state.history.slice(0, this.state.stepNumber + 1);
-    const current = history[history.length - 1];
-    const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
-      return;
-    }
-    squares[i] = this.state.xIsNext ? "X" : "O";
-    this.setState({
-      history: history.concat([
-        {
-          squares: squares
-        }
-      ]),
-      stepNumber: history.length,
-      xIsNext: !this.state.xIsNext
-    });
-  }
-
-  jumpTo(step) {
-    this.setState({
-      stepNumber: step,
-      xIsNext: (step % 2) === 0
-    });
-  }
-
   render() {
-    const history = this.state.history;
-    const current = history[this.state.stepNumber];
-    const winner = calculateWinner(current.squares);
 
-    const moves = history.map((step, move) => {
-      const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
-      return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
-        </li>
-      );
-    });
 
-    let status;
-    if (winner) {
-      status = "Winner: " + winner;
+
+    const current = this.state;
+    const weapon_known = false;
+    const weapon_best_guess = "Candlestick"
+    let weapon_status;
+    if (weapon_known) {
+      weapon_status = ": " + weapon_best_guess;
     } else {
-      status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+      weapon_status = "Weapon Unknown";
     }
 
     return (
@@ -241,7 +228,7 @@ class Game extends React.Component {
           <div className="cluesheet">
             <div className="clueboard">
               <ClueInfo
-                squares={current.squares}
+                state={current.state}
                 />
             </div>
           </div>
