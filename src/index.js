@@ -27,6 +27,39 @@ function Square(props) {
   );
 }
 
+class Toggle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {cellEntry: this.props.value}
+    //{isToggleOn: true};
+
+    // This binding is necessary to make `this` work in the callback
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    //this.props.current_info.knowledge.people[0]=this.state.cellEntry;
+    var newState = this.state;
+    newState.cellEntry = newState.cellEntry+1;
+    //this.props.people[0]= this.state.cellEntry;
+
+    // this.setState(prevState => ({
+    //   cellEntry: prevState.cellEntry+1
+    // }));
+    this.setState(newState)
+    // this.setState(this.stateUpdate());
+  }
+// from render  {this.state.isToggleOn ? this.props.value : 'OFF'}
+
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        {this.state.cellEntry}
+      </button>
+    );
+  }
+}
+
 function ClueRow(props) {
   return (
     <ListGroup horizontal={"md"}>
@@ -42,25 +75,29 @@ function ClueRow(props) {
 }
 
 function BuildDataCells(props) {
-  // var table_row_data = [];
-  // for (var i = 0; i < props.num_players; i++) {
-  //   // note: we are adding a key prop here to allow react to uniquely identify each
-  //   // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
-  //   table_row_data.push(<td key={i}><button className="square" onClick={props.onClick}>
-  //     {props.value}
-  //   </button></td>
-  //   );
+  var table_row_data = [];
+  for (var i = 0; i < props.num_players; i++) {
+    // note: we are adding a key prop here to allow react to uniquely identify each
+    // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+    table_row_data.push(<td key={i}>
+      <Toggle value={props.values[i]}></Toggle>
+      {/* <button className="square" onClick={handleClick}>
+      {props.values[i]}
+    </button> */}
+    </td>
+    );
 
     
-  // }
+  }
 
-  const listItems = props.values.map((number) =>
-    <td key={number.toString()}>
-      <button className="square" onClick={props.onClick}>{number}</button>
-    </td>
-  );
+  return table_row_data;
+  // const listItems = props.values.map((number) =>
+  //   <td key={number.toString()}>
+  //     <button className="square" onClick={props.onClick}>{number}</button>
+  //   </td>
+  // );
 
-  return listItems;
+  // return listItems;
 }
 
 function ClueTableRow(props) {
@@ -74,21 +111,13 @@ function ClueTableRow(props) {
 }
 
 class ClueInfo extends React.Component {
-  renderClueRow(i, rowname) {
-    return (
-      <ClueRow
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
-        name={rowname}
-      />
-    );
-  }
+
   renderClueTableRow(i, rowname, num_players, current_info) {
     return (
       <ClueTableRow
         value={"1"} //this.props.squares[i]}
         values = {current_info}
-        // onClick={() => this.props.onClick(i)}
+        onClick={() => this.props.onClick(i)}
         name={rowname}
         num_players={num_players}
       />
@@ -110,8 +139,8 @@ class ClueInfo extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.renderClueTableRow(0, "Prof Plum", 3, ["X", "-", "1"])}
-              {this.renderClueTableRow(1, "Prof Green", 3, [1, 2, 3])}
+              {this.renderClueTableRow(0, "Prof Plum", this.props.state.num_players, this.props.state.people.slice(0,3))}
+              {this.renderClueTableRow(1, "Prof White", this.props.state.num_players, this.props.state.people.slice(3,6))}
             </tbody>
           </Table>
         </div>
@@ -153,40 +182,6 @@ class ClueInfo extends React.Component {
 }
 
 
-class Board extends React.Component {
-  renderSquare(i) {
-    return (
-      <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
-      />
-    );
-  }
-
-  render() {
-
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
-  }
-}
-
 class Game extends React.Component {
 
   constructor(props) {
@@ -196,15 +191,30 @@ class Game extends React.Component {
       num_weapons: 5,
       num_rooms: 6,
       num_people: 6,
-      knowledge: [
+      people: Array(9*3).fill(0),
+      rooms: Array(6*3).fill(null),
+      weapons: Array(6*3).fill(null),
+    knowledge: [
         {
           rooms: Array(6*3).fill(null),
           weapons: Array(6*3).fill(null),
-          people: Array(9*3).fill(null)
+          people: Array(9*3).fill(0)
         }
       ],
 
     };
+  }
+
+  handleClick(i) {
+    var current_people = this.state.people;
+    // const people = current.square.slice();
+    // if (calculateWinner(squares) || squares[i]) {
+    //   return;
+    // }
+    current_people = current_people.fill(3);
+    this.setState({
+      people: current_people
+    });
   }
 
   render() {
@@ -212,14 +222,14 @@ class Game extends React.Component {
 
 
     const current = this.state;
-    const weapon_known = false;
-    const weapon_best_guess = "Candlestick"
-    let weapon_status;
-    if (weapon_known) {
-      weapon_status = ": " + weapon_best_guess;
-    } else {
-      weapon_status = "Weapon Unknown";
-    }
+    // const weapon_known = false;
+    // const weapon_best_guess = "Candlestick"
+    // let weapon_status;
+    // if (weapon_known) {
+    //   weapon_status = ": " + weapon_best_guess;
+    // } else {
+    //   weapon_status = "Weapon Unknown";
+    // }
 
     return (
       <div className="game">
@@ -228,7 +238,8 @@ class Game extends React.Component {
           <div className="cluesheet">
             <div className="clueboard">
               <ClueInfo
-                state={current.state}
+                state={current}
+                onClick={i => this.handleClick(i)}
                 />
             </div>
           </div>
