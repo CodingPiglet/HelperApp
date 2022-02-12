@@ -18,14 +18,9 @@ import {Table} from 'react-bootstrap';
 //   document.getElementById('root')
 // );
 
-
-function Square(props) {
-  return (
-    <button className="square" onClick={props.onClick}>
-      {props.value}
-    </button>
-  );
-}
+const people_names = ["Plum", "Orange", "Red", "Blue", "exotic color", "x", "y"];
+const room_names = ["D","B","c", "E", "f", "g", "h", "z", "d"];
+const weapon_names = ["F","B","c", "E", "f", "g", "h", "z", "d"];
 
 class Toggle extends React.Component {
   constructor(props) {
@@ -52,9 +47,9 @@ class Toggle extends React.Component {
 // from render  {this.state.isToggleOn ? this.props.value : 'OFF'}
 
   render() {
-    console.log(this.props.value)
+    var computed_id = this.props.row * this.props.num_players + this.props.player_num;
     return (
-      <button onClick={this.props.onClick}>
+      <button onClick={this.props.onClick} id={this.props.info_type[0] + computed_id} info_type={this.props.info_type}>
         {this.props.value}
       </button>
     );
@@ -65,10 +60,15 @@ function BuildDataCells(props) {
   for (var i = 0; i < props.num_players; i++) {
     // note: we are adding a key prop here to allow react to uniquely identify each
     // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+    //this onclick doesn't do anything
     table_row_data.push(<td key={i}>
       <Toggle 
         value={props.values[i]} 
-        onClick={() => props.onClick(0)}
+        info_type={props.info_type}
+        row={props.row}
+        player_num={i}
+        num_players={props.num_players}
+        onClick={(e) => props.onClick(e)}
       />
 
       {/* <button className="square" onClick={handleClick}>
@@ -81,13 +81,7 @@ function BuildDataCells(props) {
   }
 
   return table_row_data;
-  // const listItems = props.values.map((number) =>
-  //   <td key={number.toString()}>
-  //     <button className="square" onClick={props.onClick}>{number}</button>
-  //   </td>
-  // );
 
-  // return listItems;
 }
 
 function ClueRow(props) {
@@ -101,33 +95,46 @@ function ClueRow(props) {
 }
 
 class ClueInfo extends React.Component {
-
-
   
-  renderClueTableRow(i, rowname, num_players, current_info) {
-    // return (
-    //   <ClueRow
-    //     value={"1"} 
-    //     values = {current_info}
-    //     onClick={() => this.props.onClick(i)}
-    //     name={rowname}
-    //     num_players={num_players}
-    //   />
-    // );
-    console.log("In Clue table");
-    console.log(current_info)
+  renderClueTableRow(i, rowname, num_players, current_info, info_type) {
+//
      const curr_row = <ClueRow
         value={"1"} 
         values = {current_info}
-        onClick={() => this.props.onClick(i)}
+        onClick={(e) => this.props.onClick(e, info_type)}
         name={rowname}
+        row={i}
+        info_type={info_type}
         num_players={num_players}/>;
     return curr_row;
   }  
 
+  renderClueSection(info_type, num_players, num_objects, data){
+
+    var section_data = [];
+    var name_data;
+    if (info_type === "people") {
+      name_data = people_names;
+    }
+    else if (info_type === "rooms") {
+      name_data = room_names
+
+    } else if (info_type === "weapons"){
+      name_data = weapon_names;
+    }
+
+    for (var i = 0; i < num_objects; i++) {
+      section_data.push(
+        <React.Fragment key={i}>
+        {this.renderClueTableRow(i, name_data[i], num_players, data.slice(i*num_players,(i+1)*num_players), info_type)}
+        </React.Fragment>
+        )
+
+      }
+    return section_data;
+  }
+
   render() {
-    console.log("Rendering ClueInfo"); 
-    console.log(this.props.state.people) 
     return (
       <div>
         <div className="people-rows">
@@ -141,8 +148,7 @@ class ClueInfo extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.renderClueTableRow(0, "Prof Plum", this.props.state.num_players, this.props.state.people.slice(0,3))}
-              {this.renderClueTableRow(1, "Prof White", this.props.state.num_players, this.props.state.people.slice(3,6))}
+              {this.renderClueSection("people", this.props.state.num_players, this.props.state.num_people, this.props.state.people )}
             </tbody>
           </Table>
         </div>
@@ -157,12 +163,11 @@ class ClueInfo extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.renderClueTableRow(0, "Candles", 3, [1, 2, 3])}
-              {this.renderClueTableRow(1, "Rope", 3, [1, 2, 3])}
+            {this.renderClueSection("weapons", this.props.state.num_players, this.props.state.num_weapons, this.props.state.weapons )}
             </tbody>
           </Table>
         </div>
-        <div className="weapon-rows">
+        <div className="room-rows">
           <Table>
             <thead>
               <tr>
@@ -173,8 +178,8 @@ class ClueInfo extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.renderClueTableRow(0, "Kitchen", 3, [1, 2, 3])}
-              {this.renderClueTableRow(1, "Dining Room", 3, [1, 2, 3])}
+            {this.renderClueSection("rooms", this.props.state.num_players, this.props.state.num_rooms, this.props.state.rooms )}
+            {/* {this.renderClueSection("people", this.props.state.num_players, this.props.state.num_people, this.props.state.people )} */}
             </tbody>
           </Table>
         </div>
@@ -194,26 +199,47 @@ class Game extends React.Component {
       num_rooms: 6,
       num_people: 6,
       people: Array(9*3).fill(1),
-      rooms: Array(6*3).fill(null),
-      weapons: Array(6*3).fill(null),
+      rooms: Array(9*3).fill(2),
+      weapons: Array(9*3).fill(3),
 
     };
   }
 
-  handleClick(i) {
-    var current_people = this.state.people;
+  handleClick(event) {
+    var updated_people_info = this.state.people;
+    var updated_rooms_info = this.state.rooms;
+    var updated_weapons_info = this.state.weapons;
     // const people = current.square.slice();
     // if (calculateWinner(squares) || squares[i]) {
     //   return;
     // }
-    current_people = current_people.fill(3);
+    var update_type = event.target.id[0];
+    console.log("Clicked");
+    console.log(event);
+
+    console.log(event.target.info_type);
+    var update_cell = event.target.id.substring(1);
+    console.log(update_cell);
+    // console.log(id); 
+    if (update_type === "p") {
+      updated_people_info[update_cell] = 5;
+      //updated_people_info = updated_people_info.fill(3);
+     } else if (update_type === "r"){
+      updated_rooms_info = updated_rooms_info.fill(3);
+     } else if (update_type === "w") {
+      updated_weapons_info = updated_weapons_info.fill(3);
+     }
+     else {
+       console.log("Unknown update")
+     }
+
+
     this.setState({
-      people: current_people
+      people: updated_people_info,
+      rooms: updated_rooms_info,
+      weapons: updated_weapons_info
     });
 
-    console.log(this.state.people);  
-
-    console.log(this.state.rooms);  
     }
 
   render() {
@@ -247,6 +273,7 @@ class Game extends React.Component {
     );
   }
 }
+//onClick={}
 
 // ========================================
 
