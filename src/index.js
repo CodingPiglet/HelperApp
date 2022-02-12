@@ -6,9 +6,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {ListGroup} from 'react-bootstrap';
-import {ButtonGroup} from 'react-bootstrap';
-import {Button} from 'react-bootstrap';
+// import {ListGroup} from 'react-bootstrap';
+// import {ButtonGroup} from 'react-bootstrap';
+// import {Button} from 'react-bootstrap';
 import {Table} from 'react-bootstrap';
 
 // ReactDOM.render(
@@ -52,35 +52,25 @@ class Toggle extends React.Component {
 // from render  {this.state.isToggleOn ? this.props.value : 'OFF'}
 
   render() {
+    console.log(this.props.value)
     return (
-      <button onClick={this.handleClick}>
-        {this.state.cellEntry}
+      <button onClick={this.props.onClick}>
+        {this.props.value}
       </button>
     );
   }
 }
-
-function ClueRow(props) {
-  return (
-    <ListGroup horizontal={"md"}>
-      <ListGroup.Item>{props.name}</ListGroup.Item>
-      <ButtonGroup>
-        <Button></Button>
-        <Button></Button>
-        <Button></Button>
-      </ButtonGroup>
-    </ListGroup>
-    // <button></button>
-  );
-}
-
 function BuildDataCells(props) {
   var table_row_data = [];
   for (var i = 0; i < props.num_players; i++) {
     // note: we are adding a key prop here to allow react to uniquely identify each
     // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
     table_row_data.push(<td key={i}>
-      <Toggle value={props.values[i]}></Toggle>
+      <Toggle 
+        value={props.values[i]} 
+        onClick={() => props.onClick(0)}
+      />
+
       {/* <button className="square" onClick={handleClick}>
       {props.values[i]}
     </button> */}
@@ -100,7 +90,7 @@ function BuildDataCells(props) {
   // return listItems;
 }
 
-function ClueTableRow(props) {
+function ClueRow(props) {
   var data = BuildDataCells(props)
   return (
     <tr>
@@ -112,20 +102,32 @@ function ClueTableRow(props) {
 
 class ClueInfo extends React.Component {
 
+
+  
   renderClueTableRow(i, rowname, num_players, current_info) {
-    return (
-      <ClueTableRow
-        value={"1"} //this.props.squares[i]}
+    // return (
+    //   <ClueRow
+    //     value={"1"} 
+    //     values = {current_info}
+    //     onClick={() => this.props.onClick(i)}
+    //     name={rowname}
+    //     num_players={num_players}
+    //   />
+    // );
+    console.log("In Clue table");
+    console.log(current_info)
+     const curr_row = <ClueRow
+        value={"1"} 
         values = {current_info}
         onClick={() => this.props.onClick(i)}
         name={rowname}
-        num_players={num_players}
-      />
-    );
+        num_players={num_players}/>;
+    return curr_row;
   }  
 
   render() {
-
+    console.log("Rendering ClueInfo"); 
+    console.log(this.props.state.people) 
     return (
       <div>
         <div className="people-rows">
@@ -191,16 +193,9 @@ class Game extends React.Component {
       num_weapons: 5,
       num_rooms: 6,
       num_people: 6,
-      people: Array(9*3).fill(0),
+      people: Array(9*3).fill(1),
       rooms: Array(6*3).fill(null),
       weapons: Array(6*3).fill(null),
-    knowledge: [
-        {
-          rooms: Array(6*3).fill(null),
-          weapons: Array(6*3).fill(null),
-          people: Array(9*3).fill(0)
-        }
-      ],
 
     };
   }
@@ -215,7 +210,11 @@ class Game extends React.Component {
     this.setState({
       people: current_people
     });
-  }
+
+    console.log(this.state.people);  
+
+    console.log(this.state.rooms);  
+    }
 
   render() {
 
