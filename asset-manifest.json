@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/HelperApp/static/css/main.95f2a87f.chunk.css",
+    "main.js": "/HelperApp/static/js/main.1e75dae8.chunk.js",
+    "main.js.map": "/HelperApp/static/js/main.1e75dae8.chunk.js.map",
+    "runtime-main.js": "/HelperApp/static/js/runtime-main.c86d57a7.js",
+    "runtime-main.js.map": "/HelperApp/static/js/runtime-main.c86d57a7.js.map",
+    "static/js/2.8f2ee4b4.chunk.js": "/HelperApp/static/js/2.8f2ee4b4.chunk.js",
+    "static/js/2.8f2ee4b4.chunk.js.map": "/HelperApp/static/js/2.8f2ee4b4.chunk.js.map",
+    "static/js/3.767bc4eb.chunk.js": "/HelperApp/static/js/3.767bc4eb.chunk.js",
+    "static/js/3.767bc4eb.chunk.js.map": "/HelperApp/static/js/3.767bc4eb.chunk.js.map",
+    "index.html": "/HelperApp/index.html",
+    "precache-manifest.2aeb9971a4eb7ad5097f4d522b44b23e.js": "/HelperApp/precache-manifest.2aeb9971a4eb7ad5097f4d522b44b23e.js",
+    "service-worker.js": "/HelperApp/service-worker.js",
+    "static/css/main.95f2a87f.chunk.css.map": "/HelperApp/static/css/main.95f2a87f.chunk.css.map",
+    "static/js/2.8f2ee4b4.chunk.js.LICENSE.txt": "/HelperApp/static/js/2.8f2ee4b4.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/HelperApp/static/media/logo.06e73328.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c86d57a7.js",
+    "static/js/2.8f2ee4b4.chunk.js",
+    "static/css/main.95f2a87f.chunk.css",
+    "static/js/main.1e75dae8.chunk.js"
+  ]
+}
