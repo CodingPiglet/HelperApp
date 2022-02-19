@@ -10,6 +10,7 @@ import reportWebVitals from './reportWebVitals';
 // import {ButtonGroup} from 'react-bootstrap';
 // import {Button} from 'react-bootstrap';
 import {Table} from 'react-bootstrap';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 // ReactDOM.render(
 //   <React.StrictMode>
@@ -18,6 +19,7 @@ import {Table} from 'react-bootstrap';
 //   document.getElementById('root')
 // );
 
+const player_names = ["Person 1", "Person 2", "Person 3", "Person 4"]
 const people_names = ["Plum", "Orange", "Red", "Blue", "exotic color", "x", "y"];
 const room_names = ["D","B","c", "E", "f", "g", "h", "z", "d"];
 const weapon_names = ["F","B","c", "E", "f", "g", "h", "z", "d"];
@@ -142,9 +144,9 @@ class ClueInfo extends React.Component {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Ella</th>
-                <th>Ian</th>
-                <th>Janice</th>
+                <th>{player_names[0]}</th>
+                <th>{player_names[1]}</th>
+                <th>{player_names[2]}</th>
               </tr>
             </thead>
             <tbody>
@@ -157,9 +159,9 @@ class ClueInfo extends React.Component {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Ella</th>
-                <th>Ian</th>
-                <th>Janice</th>
+                <th>{player_names[0]}</th>
+                <th>{player_names[1]}</th>
+                <th>{player_names[2]}</th>
               </tr>
             </thead>
             <tbody>
@@ -172,9 +174,9 @@ class ClueInfo extends React.Component {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Ella</th>
-                <th>Ian</th>
-                <th>Janice</th>
+                <th>{player_names[0]}</th>
+                <th>{player_names[1]}</th>
+                <th>{player_names[2]}</th>
               </tr>
             </thead>
             <tbody>
@@ -225,9 +227,9 @@ class Game extends React.Component {
       updated_people_info[update_cell] = 5;
       //updated_people_info = updated_people_info.fill(3);
      } else if (update_type === "r"){
-      updated_rooms_info = updated_rooms_info.fill(3);
+      updated_rooms_info[update_cell] = 5;
      } else if (update_type === "w") {
-      updated_weapons_info = updated_weapons_info.fill(3);
+      updated_weapons_info[update_cell] = 5;
      }
      else {
        console.log("Unknown update")
@@ -278,6 +280,9 @@ class Game extends React.Component {
 // ========================================
 
 ReactDOM.render(<Game />, document.getElementById("root"));
+
+//serviceWorker.register();
+serviceWorkerRegistration.unregister();
 
 function calculateWinner(squares) {
   const lines = [
