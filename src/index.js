@@ -281,8 +281,8 @@ class Game extends React.Component {
 
 ReactDOM.render(<Game />, document.getElementById("root"));
 
-//serviceWorker.register();
-serviceWorkerRegistration.unregister();
+serviceWorkerRegistration.register();
+//serviceWorkerRegistration.unregister();
 
 function calculateWinner(squares) {
   const lines = [
