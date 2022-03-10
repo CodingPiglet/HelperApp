@@ -19,7 +19,8 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 //   document.getElementById('root')
 // );
 
-const player_names = ["Person 1", "Person 2", "Person 3", "Person 4"]
+const number_of_players = 3;
+const player_names = ["Person 1", "Person 2", "Person 3", "Person 4"];
 const people_names = ["Plum", "Orange", "Red", "Blue", "exotic color", "x", "y"];
 const room_names = ["D","B","c", "E", "f", "g", "h", "z", "d"];
 const weapon_names = ["F","B","c", "E", "f", "g", "h", "z", "d"];
@@ -143,7 +144,7 @@ class ClueInfo extends React.Component {
           <Table>
             <thead>
               <tr>
-                <th>#</th>
+                <th>People</th>
                 <th>{player_names[0]}</th>
                 <th>{player_names[1]}</th>
                 <th>{player_names[2]}</th>
@@ -158,7 +159,7 @@ class ClueInfo extends React.Component {
           <Table>
             <thead>
               <tr>
-                <th>#</th>
+                <th>Weapons</th>
                 <th>{player_names[0]}</th>
                 <th>{player_names[1]}</th>
                 <th>{player_names[2]}</th>
@@ -173,7 +174,7 @@ class ClueInfo extends React.Component {
           <Table>
             <thead>
               <tr>
-                <th>#</th>
+                <th>Rooms</th>
                 <th>{player_names[0]}</th>
                 <th>{player_names[1]}</th>
                 <th>{player_names[2]}</th>
@@ -197,12 +198,12 @@ class Game extends React.Component {
     super(props);
     this.state = {
       num_players: 3,
-      num_weapons: 5,
-      num_rooms: 6,
-      num_people: 6,
-      people: Array(9*3).fill(1),
-      rooms: Array(9*3).fill(2),
-      weapons: Array(9*3).fill(3),
+      num_weapons: weapon_names.length,
+      num_rooms: room_names.length,
+      num_people: people_names.length,
+      people: Array(people_names.length*number_of_players).fill("?"),
+      rooms: Array(room_names.length*number_of_players).fill("?"),
+      weapons: Array(weapon_names.length*number_of_players).fill("?"),
 
     };
   }
@@ -224,7 +225,15 @@ class Game extends React.Component {
     console.log(update_cell);
     // console.log(id); 
     if (update_type === "p") {
-      updated_people_info[update_cell] = 5;
+
+      if (updated_people_info[update_cell] === "X")
+      {
+        updated_people_info[update_cell] = 3;
+      }
+      else 
+      {
+        updated_people_info[update_cell] = "X";
+      }
       //updated_people_info = updated_people_info.fill(3);
      } else if (update_type === "r"){
       updated_rooms_info[update_cell] = 5;
