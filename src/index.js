@@ -21,9 +21,14 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 const number_of_players = 3;
 const player_names = ["Person 1", "Person 2", "Person 3", "Person 4"];
-const people_names = ["Plum", "Orange", "Red", "Blue", "exotic color", "x", "y"];
-const room_names = ["D","B","c", "E", "f", "g", "h", "z", "d"];
-const weapon_names = ["F","B","c", "E", "f", "g", "h", "z", "d"];
+// const people_names = ["Plum", "Orange", "Red", "Blue", "exotic color", "x", "y"];
+// const room_names = ["D","B","c", "E", "f", "g", "h", "z", "d"];
+// const weapon_names = ["F","B","c", "E", "f", "g", "h", "z", "d"];
+
+const people_names = ["Peacock", "Mustard", "Green", "Plum", "Scarlet", "White"];
+const room_names =["Hall", "Lounge", "Dining Room", "Kitchen", "Ballroom", "Conservatory", "Billiard Room", "Library",  "Study"];
+const weapon_names = ["Rope","Candlestick","Dagger", "Wrench", "Lead Pipe", "Revolver"];
+
 
 class Toggle extends React.Component {
   constructor(props) {
@@ -52,7 +57,7 @@ class Toggle extends React.Component {
   render() {
     var computed_id = this.props.row * this.props.num_players + this.props.player_num;
     return (
-      <button onClick={this.props.onClick} id={this.props.info_type[0] + computed_id} info_type={this.props.info_type}>
+      <button style={{height: '30px', width : '100px'}} onClick={this.props.onClick} id={this.props.info_type[0] + computed_id} info_type={this.props.info_type}>
         {this.props.value}
       </button>
     );
@@ -201,9 +206,9 @@ class Game extends React.Component {
       num_weapons: weapon_names.length,
       num_rooms: room_names.length,
       num_people: people_names.length,
-      people: Array(people_names.length*number_of_players).fill("?"),
-      rooms: Array(room_names.length*number_of_players).fill("?"),
-      weapons: Array(weapon_names.length*number_of_players).fill("?"),
+      people: Array(people_names.length*number_of_players).fill(" "),
+      rooms: Array(room_names.length*number_of_players).fill(" "),
+      weapons: Array(weapon_names.length*number_of_players).fill(" "),
 
     };
   }
@@ -232,14 +237,60 @@ class Game extends React.Component {
       }
       else 
       {
-        updated_people_info[update_cell] = "X";
+        if (updated_people_info[update_cell] === " ")
+        {
+          updated_people_info[update_cell] = "?";
+        }
+        else if (updated_people_info[update_cell] === "?")
+        {
+          updated_people_info[update_cell] = "\u2713";
+        }
+        else if (updated_people_info[update_cell] === "\u2713")
+        {
+          updated_people_info[update_cell] = "\u2717";
+        }
+          else
+        {
+          updated_people_info[update_cell] = " ";          
+        } 
+
       }
       //updated_people_info = updated_people_info.fill(3);
      } else if (update_type === "r"){
-      updated_rooms_info[update_cell] = 5;
+        if (updated_rooms_info[update_cell] === " ")
+        {
+          updated_rooms_info[update_cell] = "?";
+        }
+        else if (updated_rooms_info[update_cell] === "?")
+        {
+          updated_rooms_info[update_cell] = "\u2713";
+        }
+        else if (updated_rooms_info[update_cell] === "\u2713")
+        {
+          updated_rooms_info[update_cell] = "\u2717";
+        }
+          else
+        {
+          updated_rooms_info[update_cell] = " ";          
+        } 
      } else if (update_type === "w") {
-      updated_weapons_info[update_cell] = 5;
-     }
+      if (updated_weapons_info[update_cell] === " ")
+      {
+        updated_weapons_info[update_cell] = "?";
+      }
+      else if (updated_weapons_info[update_cell] === "?")
+      {
+        updated_weapons_info[update_cell] = "\u2713";
+      }
+      else if (updated_weapons_info[update_cell] === "\u2713")
+      {
+        updated_weapons_info[update_cell] = "\u2717";
+      }
+        else
+      {
+        updated_weapons_info[update_cell] = " ";          
+      } 
+   }
      else {
        console.log("Unknown update")
      }
