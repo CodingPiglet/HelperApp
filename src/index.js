@@ -19,8 +19,8 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 //   document.getElementById('root')
 // );
 
-const number_of_players = 3;
-const player_names = ["Person 1", "Person 2", "Person 3", "Person 4"];
+const number_of_players = 4;
+const player_names = ["Person E", "Person I", "Person N", "Person A"];
 // const people_names = ["Plum", "Orange", "Red", "Blue", "exotic color", "x", "y"];
 // const room_names = ["D","B","c", "E", "f", "g", "h", "z", "d"];
 // const weapon_names = ["F","B","c", "E", "f", "g", "h", "z", "d"];
@@ -57,7 +57,7 @@ class Toggle extends React.Component {
   render() {
     var computed_id = this.props.row * this.props.num_players + this.props.player_num;
     return (
-      <button style={{height: '30px', width : '100px'}} onClick={this.props.onClick} id={this.props.info_type[0] + computed_id} info_type={this.props.info_type}>
+      <button style={{height: '30px', width : '80px'}} onClick={this.props.onClick} id={this.props.info_type[0] + computed_id} info_type={this.props.info_type}>
         {this.props.value}
       </button>
     );
@@ -146,13 +146,14 @@ class ClueInfo extends React.Component {
     return (
       <div>
         <div className="people-rows">
-          <Table>
+          <Table >
             <thead>
               <tr>
                 <th>People</th>
                 <th>{player_names[0]}</th>
                 <th>{player_names[1]}</th>
                 <th>{player_names[2]}</th>
+                <th>{player_names[3]}</th>
               </tr>
             </thead>
             <tbody>
@@ -168,6 +169,7 @@ class ClueInfo extends React.Component {
                 <th>{player_names[0]}</th>
                 <th>{player_names[1]}</th>
                 <th>{player_names[2]}</th>
+                <th>{player_names[3]}</th>
               </tr>
             </thead>
             <tbody>
@@ -183,6 +185,7 @@ class ClueInfo extends React.Component {
                 <th>{player_names[0]}</th>
                 <th>{player_names[1]}</th>
                 <th>{player_names[2]}</th>
+                <th>{player_names[3]}</th>
               </tr>
             </thead>
             <tbody>
@@ -202,7 +205,7 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      num_players: 3,
+      num_players: number_of_players,
       num_weapons: weapon_names.length,
       num_rooms: room_names.length,
       num_people: people_names.length,
