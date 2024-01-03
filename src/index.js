@@ -12,6 +12,11 @@ import reportWebVitals from './reportWebVitals';
 import {Table} from 'react-bootstrap';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
+import {
+  Button,
+} from 'react-bootstrap';
+
+
 // ReactDOM.render(
 //   <React.StrictMode>
 //     <App />
@@ -38,9 +43,11 @@ class Toggle extends React.Component {
 
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
+    //this.resetGame = this.resetGame.bind(this);
   }
 
   handleClick() {
+    console.log("Initial click handler")
     //this.props.current_info.knowledge.people[0]=this.state.cellEntry;
     var newState = this.state;
     newState.cellEntry = newState.cellEntry+1;
@@ -104,6 +111,10 @@ function ClueRow(props) {
 
 class ClueInfo extends React.Component {
   
+
+  resetPage (){
+    console.log("Hit the reset button");
+ }
   renderClueTableRow(i, rowname, num_players, current_info, info_type) {
 //
      const curr_row = <ClueRow
@@ -194,26 +205,55 @@ class ClueInfo extends React.Component {
             </tbody>
           </Table>
         </div>
+
       </div>
     );
   }
 }
 
 
+function initialized_state ()
+{
+  console.log("Into state initializer")
+  return {
+    num_players: number_of_players,
+    num_weapons: weapon_names.length,
+    num_rooms: room_names.length,
+    num_people: people_names.length,
+    people: Array(people_names.length*number_of_players).fill(" "),
+    rooms: Array(room_names.length*number_of_players).fill(" "),
+    weapons: Array(weapon_names.length*number_of_players).fill(" "),    
+  }
+}
+
+
 class Game extends React.Component {
+
 
   constructor(props) {
     super(props);
-    this.state = {
-      num_players: number_of_players,
-      num_weapons: weapon_names.length,
-      num_rooms: room_names.length,
-      num_people: people_names.length,
-      people: Array(people_names.length*number_of_players).fill(" "),
-      rooms: Array(room_names.length*number_of_players).fill(" "),
-      weapons: Array(weapon_names.length*number_of_players).fill(" "),
+    var previous_people = JSON.parse(localStorage.getItem("curr_people"));
+    var previous_weapons = JSON.parse(localStorage.getItem("curr_weapons"));
+    var previous_rooms = JSON.parse(localStorage.getItem("curr_rooms"));
+    this.state = initialized_state();
+    this.state.people = previous_people;
+    this.state.weapons = previous_weapons;
+    this.state.rooms = previous_rooms;
+    // this.state = {
+    //   num_players: number_of_players,
+    //   num_weapons: weapon_names.length,
+    //   num_rooms: room_names.length,
+    //   num_people: people_names.length,
+    //   people: Array(people_names.length*number_of_players).fill(" "),
+    //   rooms: Array(room_names.length*number_of_players).fill(" "),
+    //   weapons: Array(weapon_names.length*number_of_players).fill(" "),
 
-    };
+    // };
+  }
+  resetGame(){
+    console.log("Reseting the game");
+    var new_state = initialized_state();
+    this.setState(new_state);
   }
 
   handleClick(event) {
@@ -304,6 +344,9 @@ class Game extends React.Component {
       rooms: updated_rooms_info,
       weapons: updated_weapons_info
     });
+    localStorage.setItem("curr_people",JSON.stringify(updated_people_info));
+    localStorage.setItem("curr_rooms",JSON.stringify(updated_rooms_info));
+    localStorage.setItem("curr_weapons",JSON.stringify(updated_weapons_info));
 
     }
 
@@ -332,6 +375,10 @@ class Game extends React.Component {
                 onClick={i => this.handleClick(i)}
                 />
             </div>
+            <button
+              name="Reset"
+              onClick={i => this.resetGame(i)}
+            />
           </div>
         </div>
 
