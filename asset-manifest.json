@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/HelperApp/static/css/main.89613317.chunk.css",
-    "main.js": "/HelperApp/static/js/main.ded6329a.chunk.js",
-    "main.js.map": "/HelperApp/static/js/main.ded6329a.chunk.js.map",
+    "main.js": "/HelperApp/static/js/main.83a3ca7b.chunk.js",
+    "main.js.map": "/HelperApp/static/js/main.83a3ca7b.chunk.js.map",
     "runtime-main.js": "/HelperApp/static/js/runtime-main.c86d57a7.js",
     "runtime-main.js.map": "/HelperApp/static/js/runtime-main.c86d57a7.js.map",
     "static/js/2.43b8d93c.chunk.js": "/HelperApp/static/js/2.43b8d93c.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.767bc4eb.chunk.js": "/HelperApp/static/js/3.767bc4eb.chunk.js",
     "static/js/3.767bc4eb.chunk.js.map": "/HelperApp/static/js/3.767bc4eb.chunk.js.map",
     "index.html": "/HelperApp/index.html",
-    "precache-manifest.bc3bf38d2728ea4e78c20b07dc987197.js": "/HelperApp/precache-manifest.bc3bf38d2728ea4e78c20b07dc987197.js",
+    "precache-manifest.7deb6aa7237429321bccc2a08c703c98.js": "/HelperApp/precache-manifest.7deb6aa7237429321bccc2a08c703c98.js",
     "service-worker.js": "/HelperApp/service-worker.js",
     "static/css/main.89613317.chunk.css.map": "/HelperApp/static/css/main.89613317.chunk.css.map",
     "static/js/2.43b8d93c.chunk.js.LICENSE.txt": "/HelperApp/static/js/2.43b8d93c.chunk.js.LICENSE.txt",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.c86d57a7.js",
     "static/js/2.43b8d93c.chunk.js",
     "static/css/main.89613317.chunk.css",
-    "static/js/main.ded6329a.chunk.js"
+    "static/js/main.83a3ca7b.chunk.js"
   ]
 }
