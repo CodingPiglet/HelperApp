@@ -27,7 +27,7 @@ const player_names = ["Person E", "Person I", "Person N", "Person A"];
 
 const people_names = ["Peacock", "Mustard", "Green", "Plum", "Scarlet", "White"];
 const room_names =["Hall", "Lounge", "Dining Room", "Kitchen", "Ballroom", "Conservatory", "Billiard Room", "Library",  "Study"];
-const weapon_names = ["Rope","Candlestick","Dagger", "Wrench", "Lead Pipe", "Revolver"];
+const weapon_names = ["Rope","Candlestick","Knife", "Wrench", "Lead Pipe", "Revolver"];
 
 
 class Toggle extends React.Component {
