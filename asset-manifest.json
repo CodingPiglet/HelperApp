@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/HelperApp/static/css/main.95f2a87f.chunk.css",
-    "main.js": "/HelperApp/static/js/main.b255eacf.chunk.js",
-    "main.js.map": "/HelperApp/static/js/main.b255eacf.chunk.js.map",
+    "main.css": "/HelperApp/static/css/main.89613317.chunk.css",
+    "main.js": "/HelperApp/static/js/main.ded6329a.chunk.js",
+    "main.js.map": "/HelperApp/static/js/main.ded6329a.chunk.js.map",
     "runtime-main.js": "/HelperApp/static/js/runtime-main.c86d57a7.js",
     "runtime-main.js.map": "/HelperApp/static/js/runtime-main.c86d57a7.js.map",
     "static/js/2.43b8d93c.chunk.js": "/HelperApp/static/js/2.43b8d93c.chunk.js",
@@ -10,16 +10,16 @@
     "static/js/3.767bc4eb.chunk.js": "/HelperApp/static/js/3.767bc4eb.chunk.js",
     "static/js/3.767bc4eb.chunk.js.map": "/HelperApp/static/js/3.767bc4eb.chunk.js.map",
     "index.html": "/HelperApp/index.html",
-    "precache-manifest.a080852f891679cabf6dcb024da59ae0.js": "/HelperApp/precache-manifest.a080852f891679cabf6dcb024da59ae0.js",
+    "precache-manifest.bc3bf38d2728ea4e78c20b07dc987197.js": "/HelperApp/precache-manifest.bc3bf38d2728ea4e78c20b07dc987197.js",
     "service-worker.js": "/HelperApp/service-worker.js",
-    "static/css/main.95f2a87f.chunk.css.map": "/HelperApp/static/css/main.95f2a87f.chunk.css.map",
+    "static/css/main.89613317.chunk.css.map": "/HelperApp/static/css/main.89613317.chunk.css.map",
     "static/js/2.43b8d93c.chunk.js.LICENSE.txt": "/HelperApp/static/js/2.43b8d93c.chunk.js.LICENSE.txt",
     "static/media/logo.svg": "/HelperApp/static/media/logo.06e73328.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.c86d57a7.js",
     "static/js/2.43b8d93c.chunk.js",
-    "static/css/main.95f2a87f.chunk.css",
-    "static/js/main.b255eacf.chunk.js"
+    "static/css/main.89613317.chunk.css",
+    "static/js/main.ded6329a.chunk.js"
   ]
 }
